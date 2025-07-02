@@ -1,0 +1,66 @@
+<!-- templates/shop-form.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>상품 등록</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 40px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 400px;
+    }
+    label {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, textarea {
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    a {
+      margin-top: 20px;
+      display: inline-block;
+      text-decoration: none;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+<h1>상품 등록</h1>
+
+<form th:action="@{/new}" method="post">
+  <label for="name">상품 이름</label>
+  <input type="text" name="name" id="name" required>
+
+  <label for="maker">제조사</label>
+  <input type="text" name="maker" id="maker">
+
+  <label for="content">설명</label>
+  <textarea name="content" id="content" rows="3"></textarea>
+
+  <label for="price">가격</label>
+  <input type="number" name="price" id="price" required>
+
+  <label for="imageUrl">이미지 URL</label>
+  <input type="url" name="imageUrl" id="imageUrl">
+
+  <button type="submit">등록하기</button>
+</form>
+
+<a href="/">← 상품 목록으로 돌아가기</a>
+</body>
+</html>

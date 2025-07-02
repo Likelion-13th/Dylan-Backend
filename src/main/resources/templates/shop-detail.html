@@ -1,0 +1,20 @@
+<!-- templates/shop-detail.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>상품 상세</title>
+</head>
+<body>
+<h1 th:text="${shop.name}">상품 이름</h1>
+
+<p>🛠 제조사: <span th:text="${shop.maker}"></span></p>
+<p>📄 설명: <span th:text="${shop.content}"></span></p>
+<p>💰 가격: <span th:text="${shop.price}"></span> 원</p>
+
+<div th:if="${shop.imageUrl != null}">
+  <img th:src="${shop.imageUrl}" alt="상품 이미지" width="200">
+</div>
+
+<a href="/">← 목록으로 돌아가기</a>
+</body>
+</html>

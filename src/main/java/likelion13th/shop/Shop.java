@@ -20,5 +20,4 @@ public class Shop {
     private String content;
     private int price;
     private String imageUrl;
-
 }

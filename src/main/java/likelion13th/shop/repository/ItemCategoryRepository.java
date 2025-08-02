@@ -2,16 +2,13 @@ package likelion13th.shop.repository;
 
 import likelion13th.shop.domain.ItemCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
-@Repository
 public interface ItemCategoryRepository extends JpaRepository<ItemCategory, Long> {
-    List<ItemCategory> findByCategory_Id(Long categoryId);
+    // 특정 categoryId에 속한 ItemCategory 리스트를 조회하는 메서드
+    List<ItemCategory> findByCategoryId(Long categoryId);
 }
 
-/*
-    Django의 Model.objects.all(), filter() 같은 ORM 기능만 따로 뺀 파일
-    Spring에서는 DB 접근을 JPA Repository로 분리해서 담당함
- */
+// ItemCategoryRepository.java
+// Item과 Category 간의 N:M 관계를 관리하는 리포지토리
+// Spring Data JPA의 기본 CRUD 기능 외에, 특정 카테고리에 속한 모든 상품(ItemCategory)을 조회하는 메서드를 정의

@@ -1,81 +1,42 @@
 package likelion13th.shop.service;
 
-import jakarta.transaction.Transactional;
-import likelion13th.shop.DTO.response.CategoryResponseDto;
-import likelion13th.shop.DTO.response.ItemResponseDto;
-import likelion13th.shop.domain.Category;
+import likelion13th.shop.DTO.response.ItemResponse;
+import likelion13th.shop.domain.ItemCategory;
 import likelion13th.shop.repository.CategoryRepository;
 import likelion13th.shop.repository.ItemCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import likelion13th.shop.DTO.request.CategoryRequestDto;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CategoryService {
-    // OrderService.java의 패턴을 그대로 따라하세요!
-    // @Transactional 사용으로 데이터 일관성 보장
-    // Optional 활용으로 null 안전성 확보
-    // Stream API 활용으로 깔끔한 데이터 변환
+
     private final CategoryRepository categoryRepository;
     private final ItemCategoryRepository itemCategoryRepository;
 
-    // 카테고리 전체 조회
-    /*
-        categoryRepository.findAll()로 모든 카테고리 데이터를 DB에서 가져옴.
-        stream()으로 리스트를 스트림 형태로 바꾸고,
-        map(CategoryResponseDto::new)로 각 엔티티를 DTO로 변환하고
-        .toList()로 다시 리스트로 바꿈.
-     */
-    public List<CategoryResponseDto> findAll() {
-        return categoryRepository.findAll().stream()
-                .map(CategoryResponseDto::new)
-                .toList();
-    }
+    public List<ItemResponse> findItemsByCategoryName(String categoryName) {
+        // 1. 카테고리 이름으로 Category 엔터티를 찾음
+        Long categoryId = categoryRepository.findByCategoryName(categoryName)
+                .orElseThrow(() -> new NoSuchElementException("카테고리를 찾을 수 없습니다: " + categoryName))
+                .getId();
 
-    // 카테고리 개별 조회
-    // id로 객체 탐색 -> 찾으면 DTO로 변환해 반환 : 없으면 예외 발생
-    public CategoryResponseDto findById(Long id) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("카테고리 없음"));
-        return new CategoryResponseDto(category);
-    }
+        // 2. ItemCategoryRepository를 이용해 특정 categoryId에 속한 ItemCategory 리스트를 조회
+        List<ItemCategory> itemCategories = itemCategoryRepository.findByCategoryId(categoryId);
 
-    // 카테고리 생성
-    @Transactional
-    public void create(CategoryRequestDto request) {
-        categoryRepository.save(new Category(request.getCategory_name(), request.getCategory_level()));
-    }
-
-    // 카테고리 수정
-    // id로 객체 탐색 -> 찾으면 DTO로 변환해 반환 및 수정 : 없으면 예외 발생
-    @Transactional
-    public void update(Long id, CategoryRequestDto request) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("카테고리 없음"));
-
-        category.update(request.getCategory_name(), request.getCategory_level());
-    }
-
-    // 카테고리 삭제
-    @Transactional
-    public void delete(Long id) {
-        categoryRepository.deleteById(id);
-    }
-
-    // 카테고리 id로 상품 조회
-    public List<ItemResponseDto> findItemsByCategory(Long categoryId) {
-        return itemCategoryRepository.findByCategory_Id(categoryId).stream()
-                .map(ic -> new ItemResponseDto(ic.getItem()))
-                .toList();
+        // 3. ItemCategory 리스트에서 Item 엔티티를 추출하고 DTO로 변환
+        return itemCategories.stream()
+                .map(ItemCategory::getItem) // ItemCategory에서 Item 엔티티를 가져옴
+                .map(ItemResponse::new)     // Item 엔티티를 ItemResponse DTO로 변환
+                .collect(Collectors.toList());
     }
 }
 
-/*
-    Django에선 views.py 안에 섞여 있던 비즈니스 로직을 분리한 것
-    진짜 핵심 로직 수행 (예: 주문 처리, 마일리지 계산 등)
-    Controller는 Service한테 “이거 해줘~”만 말함
- */
+// CategoryService.java
+// 카테고리 이름으로 상품 목록을 조회하는 핵심 비즈니스 로직을 담당하는 서비스
+// 데이터 조회 과정에서 예외 처리, 데이터 변환 등을 수행

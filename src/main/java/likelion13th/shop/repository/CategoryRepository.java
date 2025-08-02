@@ -4,13 +4,12 @@ import likelion13th.shop.domain.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    // OrderRepository.java의 패턴을 그대로 따라하세요!
-    // JPA 쿼리 메서드 활용
+    Optional<Category> findByCategoryName(String categoryName);
 }
 
-/*
-    Django의 Model.objects.all(), filter() 같은 ORM 기능만 따로 뺀 파일
-    Spring에서는 DB 접근을 JPA Repository로 분리해서 담당함
- */
+// CategoryRepository.java
+// Category 엔티티의 데이터 접근을 관리하는 리포지토리

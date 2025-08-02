@@ -4,9 +4,12 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Getter
-@NoArgsConstructor
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity // 이건 엔터티다 선언
+@Getter // getter 메소드를 사용할 수 있게 설정
+@NoArgsConstructor // 파라미터가 없는 기본 생성자를 자동 생성 (JPA를 사용하기 위해서 필요)
 public class Category {
 
     // 기본 키, id 숫자 자동 증가
@@ -14,21 +17,14 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String category_name;
-    private String category_level;
+    private String categoryName;
+    private String categoryLevel;
 
-    // 카테고리 객체 생성자
-    public Category(String category_name, String category_level) {
-        this.category_name = category_name;
-        this.category_level = category_level;
-    }
-
-    // 카테고리 객체의 데이터를 수정할 때 사용하는 메서드
-    public void update(String category_name, String category_level) {
-        this.category_name = category_name;
-        this.category_level = category_level;
-    }
+    @OneToMany(mappedBy = "category")
+    private List<ItemCategory> itemCategories = new ArrayList<>();
 }
 
+// Category.java
 // category의 model을 정의
 // ERD를 참고해서 카테고리 id, category_name, category_level 속성을 정의
+// Item과의 N:M 관계 설정을 위해 itemCategories 속성 추가

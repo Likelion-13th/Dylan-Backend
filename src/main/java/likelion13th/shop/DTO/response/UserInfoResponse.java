@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class UserInfoResponse {
     // 유저는 이런 속성을 가지고 있다
     private Long id;

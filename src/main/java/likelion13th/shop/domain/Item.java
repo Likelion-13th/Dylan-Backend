@@ -1,8 +1,10 @@
 package likelion13th.shop.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +17,32 @@ public class Item {
     // 기본 키, id 숫자 자동 증가
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.PRIVATE)
     private Long id;
 
+    @Column(name = "item_name", nullable = false)
     private String  itemName;
+
+    @Column(name = "item_price", nullable = false)
     private int     itemPrice;
+
+    @Column(name = "item_remain", nullable = false)
     private int     itemRemain;
+
+    @Column(name = "item_img", nullable = false)
     private String  itemImg;
+
+    @Column(name = "item_detail", nullable = false)
     private String  itemDetail;
 
-    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemCategory> itemCategories = new ArrayList<>();
+    @Column(nullable = false)
+    private boolean isNew = false;
+
+    @ManyToMany(mappedBy = "items")
+    private List<Category> categories = new ArrayList<>();
 }
 
 // Item.java
 // item의 model을 정의
 // ERD를 참고해서 Item 테이블의 속성을 정의
-// Category와의 N:M 관계 설정을 위해 itemCategories 속성 추가
+// Category와의 N:M 관계 설정을 위해 categories 속성 추가

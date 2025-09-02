@@ -1,5 +1,6 @@
 package likelion13th.shop.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion13th.shop.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import likelion13th.shop.DTO.response.UserMileageResponse;
 import likelion13th.shop.DTO.response.AddressResponse;
 import io.swagger.v3.oas.annotations.Operation;
 
+@Tag(name = "회원 정보", description = "회원 정보 관련 API 입니다.")
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor

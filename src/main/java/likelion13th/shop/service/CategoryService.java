@@ -1,9 +1,9 @@
 package likelion13th.shop.service;
 
 import likelion13th.shop.DTO.response.ItemResponse;
-import likelion13th.shop.domain.ItemCategory;
+import likelion13th.shop.domain.Category;
+import likelion13th.shop.domain.Item;
 import likelion13th.shop.repository.CategoryRepository;
-import likelion13th.shop.repository.ItemCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,21 +18,17 @@ import java.util.stream.Collectors;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final ItemCategoryRepository itemCategoryRepository;
 
     public List<ItemResponse> findItemsByCategoryName(String categoryName) {
         // 1. 카테고리 이름으로 Category 엔터티를 찾음
-        Long categoryId = categoryRepository.findByCategoryName(categoryName)
-                .orElseThrow(() -> new NoSuchElementException("카테고리를 찾을 수 없습니다: " + categoryName))
-                .getId();
+        Category category = categoryRepository.findByCategoryName(categoryName)
+                .orElseThrow(() -> new NoSuchElementException("카테고리를 찾을 수 없습니다: " + categoryName));
 
-        // 2. ItemCategoryRepository를 이용해 특정 categoryId에 속한 ItemCategory 리스트를 조회
-        List<ItemCategory> itemCategories = itemCategoryRepository.findByCategoryId(categoryId);
+        List<Item> items = category.getItems();
 
-        // 3. ItemCategory 리스트에서 Item 엔티티를 추출하고 DTO로 변환
-        return itemCategories.stream()
-                .map(ItemCategory::getItem) // ItemCategory에서 Item 엔티티를 가져옴
-                .map(ItemResponse::new)     // Item 엔티티를 ItemResponse DTO로 변환
+        // 2. ItemCategory 리스트에서 Item 엔티티를 추출하고 DTO로 변환
+        return items.stream()
+                .map(ItemResponse::from)     // Item 엔티티를 ItemResponse DTO로 변환
                 .collect(Collectors.toList());
     }
 }

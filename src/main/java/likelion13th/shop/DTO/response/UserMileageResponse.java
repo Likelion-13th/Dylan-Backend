@@ -1,16 +1,12 @@
 package likelion13th.shop.DTO.response;
 
-import likelion13th.shop.domain.User;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 @Getter
+@AllArgsConstructor
 public class UserMileageResponse {
     private Long mileage;
-
-    public UserMileageResponse(User user) {
-        this.mileage = user.getMileage();
-    }
 }
 
 // UserMileageResponse.java

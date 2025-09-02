@@ -25,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-    private final UserService userService;
 
     /** 주문 생성 **/
     @PostMapping
@@ -37,9 +36,6 @@ public class OrderController {
         OrderResponse newOrder = orderService.createOrder(request, customUserDetails);
         return ApiResponse.onSuccess(SuccessCode.ORDER_CREATE_SUCCESS, newOrder);
     }
-
-
-
 
     /** 모든 주문 목록 조회 **/
     @GetMapping

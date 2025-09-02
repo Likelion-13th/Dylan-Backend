@@ -3,6 +3,7 @@ package likelion13th.shop.service;
 import likelion13th.shop.DTO.response.AddressResponse;
 import likelion13th.shop.DTO.response.UserMileageResponse;
 import likelion13th.shop.DTO.response.UserInfoResponse;
+import likelion13th.shop.domain.Address;
 import likelion13th.shop.domain.User;
 import likelion13th.shop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +18,15 @@ import java.util.NoSuchElementException;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final AddressRepository addressRepository;
 
     // 사용자 상세 프로필 조회
     public UserInfoResponse getUserInfo(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다: " + userId));
 
-        // User 엔티티를 UserProfileResponse DTO로 변환
-        return new UserInfoResponse(user);
+        // User 엔티티를 UserInfoResponse DTO로 변환
+        return UserInfoResponse.from(user);
     }
 
     // 사용자 마일리지 조회
@@ -38,11 +40,11 @@ public class UserService {
 
     // 사용자 주소 조회
     public AddressResponse getUserAddress(Long userId) {
-        User user = userRepository.findById(userId)
+        Address address = addressRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다: " + userId));
 
         // User 엔티티를 UserAddressResponse DTO로 변환
-        return new AddressResponse(user);
+        return new AddressResponse(address);
     }
 }
 

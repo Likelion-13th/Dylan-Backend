@@ -1,9 +1,12 @@
 package likelion13th.shop.DTO.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import likelion13th.shop.domain.Item;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class ItemResponse {
     // 상품은 이런 속성을 가지고 있다
     private Long id;
@@ -12,15 +15,24 @@ public class ItemResponse {
     private int     itemRemain;
     private String  itemImg;
     private String  itemDetail;
+    private boolean isNew;
+
+    @JsonProperty("isNew")
+    public boolean getIsNew() {
+        return isNew;
+    }
 
     // 속성에 값을 채워넣는 부분
-    public ItemResponse(Item item) {
-        this.id = item.getId();
-        this.itemName = item.getItemName(); // getter도 카멜 케이스로 변경
-        this.itemPrice = item.getItemPrice();
-        this.itemRemain = item.getItemRemain();
-        this.itemImg = item.getItemImg();
-        this.itemDetail = item.getItemDetail();
+    public static ItemResponse from(Item item) {
+        return new ItemResponse(
+                item.getId(),
+                item.getItemName(),
+                item.getItemPrice(),
+                item.getItemRemain(),
+                item.getItemImg(),
+                item.getItemDetail(),
+                item.isNew()
+        );
     }
 }
 

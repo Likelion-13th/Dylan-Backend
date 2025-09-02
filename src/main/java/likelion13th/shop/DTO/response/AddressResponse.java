@@ -1,18 +1,18 @@
 package likelion13th.shop.DTO.response;
 
-import likelion13th.shop.domain.User;
+import likelion13th.shop.domain.Address;
 import lombok.Getter;
 
 @Getter
 public class AddressResponse {
     private String address;
-    private Long zipCode;
+    private String zipcode;
     private String addressDetail;
 
-    public AddressResponse(User user) {
-        this.address = user.getAddress();
-        this.zipCode = user.getZipCode();
-        this.addressDetail = user.getAddressDetail();
+    public AddressResponse(Address address) {
+        this.zipcode = address.getZipcode();
+        this.address = address.getAddress();
+        this.addressDetail = address.getAddressDetail();
     }
 }
 

@@ -47,7 +47,8 @@ public enum ErrorCode implements BaseCode { // 실패
 
 
     // User Address 관련 에러 코드 추가
-    ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "ADDRESS_4041", "해당 사용자의 주소 정보를 찾을 수 없습니다.");
+    ADDRESS_NOT_FOUND(HttpStatus.NOT_FOUND, "ADDRESS_4041", "해당 사용자의 주소 정보를 찾을 수 없습니다."),
+    INVALID_MILEAGE(HttpStatus.BAD_REQUEST, "INVALID_MILEAGE", "유효하지 않은 마일리지입니다." );
 
     private final HttpStatus httpStatus;
     private final String code;

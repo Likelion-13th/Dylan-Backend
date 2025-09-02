@@ -33,7 +33,7 @@ public class OrderService {
                 .orElseThrow(() -> new GeneralException(ErrorCode.ITEM_NOT_FOUND));
 
         // 총 금액 계산
-        int totalPrice = item.getPrice() * request.getQuantity();
+        int totalPrice = item.getItemPrice() * request.getQuantity();
         // 마일리지 유효성 검사
         int mileageToUse = request.getMileageToUse();
         if (mileageToUse > user.getMaxMileage()) {

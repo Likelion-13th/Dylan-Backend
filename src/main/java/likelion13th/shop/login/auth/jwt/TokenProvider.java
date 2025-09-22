@@ -7,17 +7,17 @@ import likelion13th.shop.global.exception.GeneralException;
 import likelion13th.shop.login.auth.dto.JwtDto;
 import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
-@ComponentScan
+@Component
 public class TokenProvider {
     private final Key secretKey;
     private final Long accessTokenExpiration;

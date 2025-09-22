@@ -18,7 +18,6 @@ import java.util.NoSuchElementException;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final AddressRepository addressRepository;
 
     // 사용자 상세 프로필 조회
     public UserInfoResponse getUserInfo(Long userId) {
@@ -35,15 +34,16 @@ public class UserService {
                 .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다: " + userId));
 
         // User 엔티티를 UserMileageResponse DTO로 변환
-        return new UserMileageResponse(user);
+        return new UserMileageResponse(user.getId());
     }
 
     // 사용자 주소 조회
     public AddressResponse getUserAddress(Long userId) {
-        Address address = addressRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다: " + userId));
 
-        // User 엔티티를 UserAddressResponse DTO로 변환
+        Address address = user.getAddress(); // 유저의 주소 꺼내기
+
         return new AddressResponse(address);
     }
 }

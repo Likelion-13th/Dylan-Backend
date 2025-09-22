@@ -3,6 +3,20 @@ spring:
   profiles:
     active: local
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sajang_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: sajang_user
+    password: sajang_password
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # 필요에 맞게 create / update / validate / none 선택
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+
   security:
     oauth2:
       client:

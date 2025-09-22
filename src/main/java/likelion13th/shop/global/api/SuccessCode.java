@@ -43,7 +43,8 @@ public enum SuccessCode implements BaseCode { // 성공
 
     // User Address 관련 응답 코드 추가
     ADDRESS_SAVE_SUCCESS(HttpStatus.CREATED, "ADDRESS_201", "주소 저장에 성공했습니다."),
-    ADDRESS_GET_SUCCESS(HttpStatus.OK, "ADDRESS_200", "주소 조회에 성공했습니다.");
+    ADDRESS_GET_SUCCESS(HttpStatus.OK, "ADDRESS_200", "주소 조회에 성공했습니다."),
+    ORDER_LIST_EMPTY(HttpStatus.OK, "asdfasdf", "Asdfasdfsda");
 
     private final HttpStatus httpStatus;
     private final String code;

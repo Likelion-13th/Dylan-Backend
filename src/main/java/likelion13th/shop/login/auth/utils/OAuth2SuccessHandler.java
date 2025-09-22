@@ -8,7 +8,7 @@ import likelion13th.shop.login.auth.dto.JwtDto;
 import likelion13th.shop.login.auth.jwt.CustomUserDetails;
 import likelion13th.shop.login.auth.service.JpaUserDetailsManager;
 import likelion13th.shop.repository.UserRepository;
-import likelion13th.shop.service.UserService;
+import likelion13th.shop.login.service.UserServiceLogin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -26,7 +26,7 @@ import java.util.List;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepository userRepository;
     private final JpaUserDetailsManager jpaUserDetailsManager;
-    private final UserService userService;
+    private final UserServiceLogin userServiceLogin;
 
     @Override
     public void onAuthenticationSuccess(
@@ -54,14 +54,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             log.info("기존 회원이용");
         }
 
-        JwtDto jwt = userService.jwtMakeSave(providerId);
+        JwtDto jwt = userServiceLogin.jwtMakeSave(providerId);
 
         String frontendRedirectUri = request.getParameter("redirect_uri");
         List<String> authorizeUris = List.of(
-                "내 url"
+                "http://localhost:8080/"
         );
-        if (frontendRedirectUri != null || !authorizeUris.contains(frontendRedirectUri)) {
-            frontendRedirectUri = "프론트엔드 배포 url";
+        if (frontendRedirectUri == null || !authorizeUris.contains(frontendRedirectUri)) {
+            frontendRedirectUri = "https://dylan-perfume.netlify.app/";
         }
 
         String redirectUri = UriComponentsBuilder

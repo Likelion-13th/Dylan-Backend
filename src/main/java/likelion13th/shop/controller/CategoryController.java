@@ -4,9 +4,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import likelion13th.shop.DTO.response.ItemResponse;
 import likelion13th.shop.global.api.ApiResponse;
+import likelion13th.shop.global.api.SuccessCode;
 import likelion13th.shop.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,9 +22,9 @@ public class CategoryController {
     // GET /categories/{categoryId}/items - 카테고리별 상품 조회
     @Operation(summary = "카테고리별 상품 조회")
     @GetMapping("/{categoryName}/items")
-    public ResponseEntity<List<ItemResponse>> getItemsByCategory(@PathVariable String categoryName) {
+    public ApiResponse<?> getItemsByCategory(@PathVariable String categoryName) {
         List<ItemResponse> response = categoryService.findItemsByCategoryName(categoryName);
-        return ResponseEntity.ok(response);
+        return ApiResponse.onSuccess(SuccessCode.CATEGORY_ITEMS_GET_SUCCESS, response);
     }
 }
 

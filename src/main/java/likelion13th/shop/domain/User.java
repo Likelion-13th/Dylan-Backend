@@ -62,6 +62,7 @@ public class User extends BaseEntity {
 
     // 주문 정보 (1:N 관계)
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Order> orders = new ArrayList<>();
 
     // 주문 추가 메서드

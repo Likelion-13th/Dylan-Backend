@@ -33,7 +33,7 @@ public class OrderController {
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody OrderCreateRequest request
     ) {
-        OrderResponse newOrder = orderService.createOrder(request, customUserDetails.toEntity());
+        OrderResponse newOrder = orderService.createOrder(request, customUserDetails.getProviderId());
         return ApiResponse.onSuccess(SuccessCode.ORDER_CREATE_SUCCESS, newOrder);
     }
 
@@ -43,7 +43,7 @@ public class OrderController {
     public ApiResponse<?> getAllOrders(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     ) {
-        List<OrderResponse> orders = orderService.getAllOrders(customUserDetails.toEntity());
+        List<OrderResponse> orders = orderService.getAllOrders(customUserDetails.getProviderId());
         // 주문이 없더라도 성공 응답 + 빈 리스트 반환
         if (orders.isEmpty()) {
             return ApiResponse.onSuccess(SuccessCode.ORDER_LIST_EMPTY, Collections.emptyList());

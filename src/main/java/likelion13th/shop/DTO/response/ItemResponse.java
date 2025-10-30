@@ -13,6 +13,7 @@ public class ItemResponse {
     private String  itemName;
     private int     itemPrice;
     private int     itemRemain;
+    private String  itemBrand;
     private String  itemImg;
     private String  itemDetail;
     private boolean isNew;
@@ -29,6 +30,7 @@ public class ItemResponse {
                 item.getItemName(),
                 item.getItemPrice(),
                 item.getItemRemain(),
+                item.getItemBrand(),
                 item.getItemImg(),
                 item.getItemDetail(),
                 item.isNew()

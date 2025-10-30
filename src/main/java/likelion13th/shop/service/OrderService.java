@@ -11,6 +11,7 @@ import likelion13th.shop.global.constant.OrderStatus;
 import likelion13th.shop.global.exception.GeneralException;
 import likelion13th.shop.repository.ItemRepository;
 import likelion13th.shop.repository.OrderRepository;
+import likelion13th.shop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -24,10 +25,14 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
     /** 주문 생성 **/
     @Transactional
-    public OrderResponse createOrder(OrderCreateRequest request, User user) {
+    public OrderResponse createOrder(OrderCreateRequest request, String providerId) {
+        User user = userRepository.findByProviderId(providerId)
+                .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND));
+
         // 상품 조회
         Item item = itemRepository.findById(request.getItemId())
                 .orElseThrow(() -> new GeneralException(ErrorCode.ITEM_NOT_FOUND));
@@ -65,8 +70,10 @@ public class OrderService {
 
     /** 로그인한 사용자의 모든 주문 조회 **/
     @Transactional
-    public List<OrderResponse> getAllOrders(User user) {
-        //프록시 객체 -> DTO로 변환 후 반환
+    public List<OrderResponse> getAllOrders(String providerId) {
+        User user = userRepository.findByProviderId(providerId)
+                .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND));
+
         return user.getOrders().stream()
                 .map(OrderResponse::from)
                 .collect(Collectors.toList());

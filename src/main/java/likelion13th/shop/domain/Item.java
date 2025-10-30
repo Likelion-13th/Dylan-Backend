@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +27,26 @@ public class Item {
     @Column(name = "item_price", nullable = false)
     private int     itemPrice;
 
-    @Column(name = "item_remain", nullable = false)
-    private int     itemRemain;
+    @Column(name = "item_remain")
+    private int     itemRemain = 0;
+
+    @Column(name = "item_brand", nullable = false)
+    private String  itemBrand;
 
     @Column(name = "item_img", nullable = false)
     private String  itemImg;
 
-    @Column(name = "item_detail", nullable = false)
+    @Column(name = "item_detail")
     private String  itemDetail;
 
     @Column(nullable = false)
     private boolean isNew = false;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();

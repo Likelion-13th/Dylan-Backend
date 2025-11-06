@@ -1,26 +1,3 @@
-# develop profile
-spring:
-  config:
-    activate:
-      on-profile: develop
-  datasource:
-    url: ${aws.db.url}
-    username: ${aws.db.username}
-    password: ${aws.db.password}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  sql:
-    init:
-      mode: never
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      dialect: org.hibernate.dialect.MySQLDialect
-      use_sql_comments: true
-      default_batch_fetch_size: 1000
-
----
-
 # default profile settings
 spring:
 
@@ -88,6 +65,52 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
+---
+
+# develop profile
+spring:
+  config:
+    activate:
+      on-profile: develop
+  datasource:
+    url: ${aws.db.url}
+    username: ${aws.db.username}
+    password: ${aws.db.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.MySQLDialect
+      use_sql_comments: true
+      default_batch_fetch_size: 1000
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: ${local.db.url}
+    username: ${local.db.username}
+    password: ${local.db.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: never
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.MySQLDialect
+      use_sql_comments: true
+      default_batch_fetch_size: 1000
+
+---
 
 JWT_SECRET: ${JWT_SECRET}
 JWT_EXPIRATION: ${JWT_EXPIRATION}                  # Access(ms)

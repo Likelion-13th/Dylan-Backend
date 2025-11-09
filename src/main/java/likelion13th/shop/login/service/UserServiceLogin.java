@@ -36,7 +36,7 @@ public class UserServiceLogin {
         return userRepository.findByProviderId(providerId);
     }
 
-    public User getAuthemticateUser(String providerId) {
+    public User getAuthenticatedUser(String providerId) {
         return userRepository.findByProviderId(providerId)
                 .orElseThrow(() -> new GeneralException(ErrorCode.USER_NOT_FOUND));
     }

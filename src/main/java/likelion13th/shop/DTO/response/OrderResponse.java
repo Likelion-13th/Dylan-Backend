@@ -21,6 +21,7 @@ public class OrderResponse {
     private int mileageToUse; //사용한 마일리지
     private OrderStatus status;
     private LocalDateTime createdAt;
+    private String itemImg;
 
     public static OrderResponse from(Order order) {
         return new OrderResponse(
@@ -32,7 +33,8 @@ public class OrderResponse {
                 order.getFinalPrice(),
                 order.getTotalPrice() - order.getFinalPrice(),
                 order.getStatus(),
-                order.getCreatedAt()
-        );
+                order.getCreatedAt(),
+                order.getItem().getItemImg()
+                );
     }
 }

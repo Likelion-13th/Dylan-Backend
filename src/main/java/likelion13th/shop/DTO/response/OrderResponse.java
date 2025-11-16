@@ -22,6 +22,7 @@ public class OrderResponse {
     private OrderStatus status;
     private LocalDateTime createdAt;
     private String itemImg;
+    private String itemDetail;
 
     public static OrderResponse from(Order order) {
         return new OrderResponse(
@@ -34,7 +35,8 @@ public class OrderResponse {
                 order.getTotalPrice() - order.getFinalPrice(),
                 order.getStatus(),
                 order.getCreatedAt(),
-                order.getItem().getItemImg()
+                order.getItem().getItemImg(),
+                order.getItem().getItemDetail()
                 );
     }
 }
